@@ -5,6 +5,8 @@ from django.contrib.auth.models import BaseUserManager
 
 # Create your models here.
 
+AGGREGATE_CHOICE = ['daily', 'weekly', 'monthly']
+
 class UserProfileManager(BaseUserManager):
     """Helps Django work with our custom model. """
 
