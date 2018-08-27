@@ -4,8 +4,10 @@ from sales_api.models import Sales, AGGREGATE_CHOICE
 class FilterSerializer(serializers.Serializer):
     """Serializes a start date, end date and aggregate level field for testing our APIView"""
 
-    start_date = serializers.DateTimeField(format="%Y-%m-%d")
-    end_date = serializers.DateTimeField(format="%Y-%m-%d")
+    start_date = serializers.DateTimeField(format='%Y-%m-%d', input_formats=['%Y-%m-%d'])
+    end_date = serializers.DateTimeField(format='%Y-%m-%d', input_formats=['%Y-%m-%d'])
+    #start_date = serializers.DateTimeField(format='%Y-%m-%d')
+    #end_date = serializers.DateTimeField(format='%Y-%m-%d')
     agg_level = serializers.ChoiceField(choices=AGGREGATE_CHOICE, default='daily')
 
     def validate(self, data):

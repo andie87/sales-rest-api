@@ -28,76 +28,79 @@ class ActiveUserApiView(APIView):
 
     def post(self, request):
         """return active user with 3 criteria : start date, end date and aggregate level"""
+        user_level = self.request.META['HTTP_USER_LEVEL']
+        if user_level == 'Admin' or user_level == 'Staff': #both admin and staff can access API
+            serializer = serializers.FilterSerializer(data=request.data)
 
-        serializer = serializers.FilterSerializer(data=request.data)
-
-        if serializer.is_valid():
-            start_date = pendulum.parse(serializer.data.get('start_date'))
-            end_date = pendulum.parse(serializer.data.get('end_date'))
-            aggregate = serializer.data.get('agg_level')
-            result = []
-            info = {}
-            info['start_date'] = str(start_date)
-            info['end_date'] = str(end_date)
-            info['agg_level'] = aggregate
-            data = []
-            period = pendulum.period(start_date, end_date)
-            if aggregate == AGGREGATE_CHOICE[0]: #if aggregate is daily                
+            if serializer.is_valid():
+                start_date = pendulum.parse(serializer.data.get('start_date'))
+                end_date = pendulum.parse(serializer.data.get('end_date'))
+                aggregate = serializer.data.get('agg_level')
+                result = []
+                request = {}
+                request['start_date'] = str(start_date)
+                request['end_date'] = str(end_date)
+                request['agg_level'] = aggregate
+                data = []
                 period = pendulum.period(start_date, end_date)
-                for dt in period.range('days'):
-                    day = {}
-                    temp_daily =  Sales.objects.filter(purchased_date__day=dt.strftime('%d'),purchased_date__month=dt.strftime('%m'),purchased_date__year=dt.strftime('%Y')).order_by('-purchased_date')
-                    sales_serializer = serializers.SalesSerializer(temp_daily, many=True)
-                    day['date'] = str(dt)
-                    day['data'] = sales_serializer.data
-                    data.append(day)
-            elif aggregate == AGGREGATE_CHOICE[1]: #if aggregate is weekly
-                if start_date.day_of_week == pendulum.MONDAY:
-                    temp_start_date = start_date
-                else:
+                if aggregate == AGGREGATE_CHOICE[0]: #if aggregate is daily                
+                    period = pendulum.period(start_date, end_date)
+                    for dt in period.range('days'):
+                        day = {}
+                        temp_daily =  Sales.objects.filter(purchased_date__day=dt.strftime('%d'),purchased_date__month=dt.strftime('%m'),purchased_date__year=dt.strftime('%Y')).order_by('-purchased_date')
+                        sales_serializer = serializers.SalesSerializer(temp_daily, many=True)
+                        day['date'] = str(dt)
+                        day['data'] = sales_serializer.data
+                        data.append(day)
+                elif aggregate == AGGREGATE_CHOICE[1]: #if aggregate is weekly
                     temp_start_date = start_date.start_of('week')
-                period = pendulum.period(temp_start_date, end_date)
-                i = 0
-                for dt in period.range('weeks'):
-                    week = {}
-                    if i == 0:
-                        temp_weekly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
+                    period = pendulum.period(temp_start_date, end_date)
+                    i = 0
+                    for dt in period.range('weeks'):
+                        week = {}
+                        if i == 0: #First Week
+                            temp_weekly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
+                            week['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('week')) 
+                        else :
+                            if i == period.weeks: #The Last Week
+                                temp_weekly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=end_date).order_by('-purchased_date')
+                                week['period'] = str(dt.start_of('day'))+" to "+str(end_date)
+                            else:
+                                temp_weekly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
+                                week['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('week'))
+                        
                         sales_serializer = serializers.SalesSerializer(temp_weekly, many=True)
-                        week['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('week'))
                         week['data'] = sales_serializer.data
-                    else :
-                        temp_weekly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
-                        sales_serializer = serializers.SalesSerializer(temp_weekly, many=True)
-                        week['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('week'))
-                        week['data'] = sales_serializer.data
-                    data.append(week)
-                    i+=1
-            else:
-                if start_date.format('DD') == '01':
-                    temp_start_date = start_date
-                else:
+                        data.append(week)
+                        i+=1
+                else: #if aggregate is monthly
                     temp_start_date = start_date.start_of('month')
-                period = pendulum.period(temp_start_date, end_date)
-                i = 0
-                for dt in period.range('months'):
-                    month = {}
-                    if i == 0:
-                        temp_monthly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
-                        sales_serializer = serializers.SalesSerializer(temp_monthly, many=True)
-                        month['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('month'))
-                        month['data'] = sales_serializer.data
-                    else :
-                        temp_monthly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
-                        sales_serializer = serializers.SalesSerializer(temp_monthly, many=True)
-                        month['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('month'))
-                        month['data'] = sales_serializer.data
-                    data.append(month)
-                    i+=1
+                    period = pendulum.period(temp_start_date, end_date)
+                    i = 0
+                    for dt in period.range('months'):
+                        month = {}
+                        if i == 0:
+                            temp_monthly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
+                            month['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('month'))
+                        else:
+                            if i == period.in_months():
+                                temp_monthly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=end_date).order_by('-purchased_date')
+                                month['period'] = str(dt.start_of('day'))+" to "+str(end_date)
+                            else:
+                                temp_monthly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
+                                month['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('month'))
 
-            result.append({'info':info, 'result':data})            
-            return Response(result)
+                        sales_serializer = serializers.SalesSerializer(temp_monthly, many=True)
+                        month['data'] = sales_serializer.data
+                        data.append(month)
+                        i+=1
+
+                result.append({'request':request, 'result':data})            
+                return Response(result)
+            else :
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else :
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response("You don't have authorization", status=status.HTTP_403_FORBIDDEN)
 
 class TotalRevenueApiView(APIView):
     """Total Revenue API View."""
@@ -117,28 +120,75 @@ class TotalRevenueApiView(APIView):
 
     def post(self, request):
         """return total revenue with 3 criteria : start date, end date and aggregate level"""
+        user_level = self.request.META['HTTP_USER_LEVEL']
+        if user_level != 'Admin': #only admin can access API
+            return Response("You don't have authorization", status=status.HTTP_403_FORBIDDEN)
 
         serializer = serializers.FilterSerializer(data=request.data)
-        #return Response({"pesan":"halooo"})
-
+        
         if serializer.is_valid():
             start_date = pendulum.parse(serializer.data.get('start_date'))
             end_date = pendulum.parse(serializer.data.get('end_date'))
             aggregate = serializer.data.get('agg_level')
+            request = {}
+            request['start_date'] = str(start_date)
+            request['end_date'] = str(end_date)
+            request['agg_level'] = aggregate
+            data = []
             result = []
             if aggregate == AGGREGATE_CHOICE[0]: #if aggregate is daily
                 period = pendulum.period(start_date, end_date)
-                day = {}
+                
                 for dt in period.range('days'):
                     temp_daily =  Sales.objects.filter(purchased_date__day=dt.strftime('%d'),purchased_date__month=dt.strftime('%m'),purchased_date__year=dt.strftime('%Y')).order_by('-purchased_date')
                     total = temp_daily.aggregate(Sum('amount'))
-                    day[str(dt)] = total
-                result.append(day)    
+                    day = {}
+                    day['date'] = str(dt)
+                    day['total'] = total['amount__sum']
+                    data.append(day)
             elif aggregate == AGGREGATE_CHOICE[1]: #if aggregate is weekly
-                result = Sales.objects.filter(purchased_date__range=[start_date,end_date]).order_by('-purchased_date')
-            else:
-                result = Sales.objects.filter(purchased_date__range=[start_date,end_date]).order_by('-purchased_date')
-                        
+                temp_start_date = start_date.start_of('week')
+                period = pendulum.period(temp_start_date, end_date)
+                i = 0
+                for dt in period.range('weeks'):
+                    week = {}
+                    if i == 0: #First Week
+                        temp_weekly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
+                        week['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('week')) 
+                    else :
+                        if i == period.weeks: #The Last Week
+                            temp_weekly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=end_date).order_by('-purchased_date')
+                            week['period'] = str(dt.start_of('day'))+" to "+str(end_date)
+                        else:
+                            temp_weekly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('week')).order_by('-purchased_date')
+                            week['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('week'))
+                       
+                    total = temp_weekly.aggregate(Sum('amount'))
+                    week['total'] = total['amount__sum']
+                    data.append(week)
+                    i+=1
+            else: #if aggregate is monthly
+                temp_start_date = start_date.start_of('month')
+                period = pendulum.period(temp_start_date, end_date)
+                i = 0
+                for dt in period.range('months'):
+                    month = {}
+                    if i == 0:
+                        temp_monthly =  Sales.objects.filter(purchased_date__gt=start_date.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
+                        month['period'] = str(start_date.start_of('day'))+" to "+str(dt.end_of('month'))
+                    else:
+                        if i == period.in_months():
+                            temp_monthly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=end_date).order_by('-purchased_date')
+                            month['period'] = str(dt.start_of('day'))+" to "+str(end_date)
+                        else:
+                            temp_monthly =  Sales.objects.filter(purchased_date__gt=dt.start_of('day').subtract(days=1),purchased_date__lte=dt.end_of('month')).order_by('-purchased_date')
+                            month['period'] = str(dt.start_of('day'))+" to "+str(dt.end_of('month'))
+
+                    total = temp_monthly.aggregate(Sum('amount'))
+                    month['total'] = total['amount__sum']
+                    data.append(month)
+                    i+=1
+            result.append({'request':request, 'result':data})              
             return Response(result)
         else :
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

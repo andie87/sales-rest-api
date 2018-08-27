@@ -1,0 +1,673 @@
+{
+	"id": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+	"name": "Sales",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"name": "GET_ACTIVE_USER",
+			"description": "get active user between 2 dates with aggregation level",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"order": [
+				"a50e9359-fa20-e4cd-0264-9a86b459504b",
+				"5ddf66a7-6c6c-7f01-15e2-9a616ea64389",
+				"79239fc5-c211-8a28-5635-a9970b9569b4",
+				"8bec6834-8136-30eb-a445-e89eec1f93d0",
+				"8a360bdb-fa3e-9dc8-6787-c12050e2574c",
+				"39588af8-707d-a1aa-82e2-8ae9fad95317"
+			],
+			"owner": 0,
+			"folders_order": [],
+			"id": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4"
+		},
+		{
+			"name": "GET_TOTAL_REVENUE",
+			"description": "Get total revenue between 2 dates with aggregation level",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"order": [
+				"fccf0d56-14ff-904e-28a7-94815ddbaef6",
+				"3f73cbc0-d602-5a3d-1ca2-785465b70c79",
+				"03a7ae1c-de9a-5cb6-3fc8-d61e8608b465",
+				"4686ff18-257b-4d8f-2230-dc894d4b3585",
+				"c20e4915-2c50-44a8-a268-1ffc618f1053",
+				"e5b92e4e-56ce-f188-6fd6-7fbc17c940d6"
+			],
+			"owner": 0,
+			"folders_order": [],
+			"id": "963f7da5-8e9c-98b6-4b63-82261dfd8c07"
+		}
+	],
+	"folders_order": [
+		"4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+		"963f7da5-8e9c-98b6-4b63-82261dfd8c07"
+	],
+	"timestamp": 1535379218349,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "03a7ae1c-de9a-5cb6-3fc8-d61e8608b465",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "weekly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388608208,
+			"name": "WEEKLY - Admin",
+			"description": "get total revenue between 2 date with weekly aggregation level\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "39588af8-707d-a1aa-82e2-8ae9fad95317",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-06-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "monthly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388567182,
+			"name": "MONTHLY - Staff",
+			"description": "get active user between 2 date with monthly aggregation level\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "3f73cbc0-d602-5a3d-1ca2-785465b70c79",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "daily",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388324394,
+			"name": "DAILY - Staff",
+			"description": "get total revenue between 2 date with daily aggregation level,\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "4686ff18-257b-4d8f-2230-dc894d4b3585",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "weekly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388651187,
+			"name": "WEEKLY - Staff",
+			"description": "get total revenue between 2 date with weekly aggregation level\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "5ddf66a7-6c6c-7f01-15e2-9a616ea64389",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "daily",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388439866,
+			"name": "DAILY - Staff",
+			"description": "get active user between 2 date with daily aggregation level\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "79239fc5-c211-8a28-5635-a9970b9569b4",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "weekly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388481900,
+			"name": "WEEKLY - Admin",
+			"description": "get active user between 2 date with weekly aggregation level\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "8a360bdb-fa3e-9dc8-6787-c12050e2574c",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-06-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "monthly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388536981,
+			"name": "MONTHLY - Admin",
+			"description": "get active user between 2 date with monthly aggregation level\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "8bec6834-8136-30eb-a445-e89eec1f93d0",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "weekly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388520896,
+			"name": "WEEKLY - Staff",
+			"description": "get active user between 2 date with weekly aggregation level\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "a50e9359-fa20-e4cd-0264-9a86b459504b",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_active_user/",
+			"folder": "4b42d00f-180f-a2b8-ddd2-f3ff76b1e5b4",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "daily",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388422714,
+			"name": "DAILY - Admin",
+			"description": "get active user between 2 date with daily aggregation level\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "c20e4915-2c50-44a8-a268-1ffc618f1053",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-05-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "monthly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388765905,
+			"name": "MONTHLY - Admin",
+			"description": "get total revenue between 2 date with monthly aggregation level\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "e5b92e4e-56ce-f188-6fd6-7fbc17c940d6",
+			"headers": "user-level: Staff\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Staff",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-05-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "monthly",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388763330,
+			"name": "MONTHLY - Staff",
+			"description": "get total revenue between 2 date with monthly aggregation level\n\nwith staff custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		},
+		{
+			"id": "fccf0d56-14ff-904e-28a7-94815ddbaef6",
+			"headers": "user-level: Admin\n",
+			"headerData": [
+				{
+					"key": "user-level",
+					"value": "Admin",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/get_total_revenue/",
+			"folder": "963f7da5-8e9c-98b6-4b63-82261dfd8c07",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "start_date",
+					"value": "2018-08-01",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "end_date",
+					"value": "2018-08-27",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "agg_level",
+					"value": "daily",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1535388329836,
+			"name": "DAILY - Admin",
+			"description": "get total revenue between 2 date with daily aggregation level,\n\nwith admin custom header for authorization",
+			"collectionId": "06a019a4-2cb4-f6a8-2489-6aedb1e09e57",
+			"responses": []
+		}
+	]
+}
